@@ -42,19 +42,6 @@ self.multirange = function(input) {
 		}
 	});
 
-	if (descriptor.get) {
-		// Again, fuck you Safari
-		Object.defineProperty(input, "value", {
-			get: function() { return this.valueLow + "," + this.valueHigh; },
-			set: function(v) {
-				var values = v.split(",");
-				this.valueLow = values[0];
-				this.valueHigh = values[1];
-			},
-			enumerable: true
-		});
-	}
-
 	function update() {
 		ghost.style.setProperty("--low", 100 * ((input.valueLow - min) / (max - min)) + 1 + "%");
 		ghost.style.setProperty("--high", 100 * ((input.valueHigh - min) / (max - min)) - 1 + "%");
