@@ -31,12 +31,12 @@ self.multirange = function(input) {
 
 	Object.defineProperties(input, {
 		valueLow: {
-			get: function() { Console.log(this.originalValue);Console.log(ghost.value);return Math.min(this.originalValue, ghost.value); },
+			get: function() { return Math.min(this.originalValue, ghost.value); },
 			set: function(v) { this.originalValue = v; },
 			enumerable: true
 		},
 		valueHigh: {
-			get: function() { Console.log(this.originalValue);Console.log(ghost.value);return Math.max(this.originalValue, ghost.value); },
+			get: function() { return Math.max(this.originalValue, ghost.value); },
 			set: function(v) { ghost.value = v; },
 			enumerable: true
 		}
@@ -45,7 +45,7 @@ self.multirange = function(input) {
 	if (descriptor.get) {
 		// Again, fuck you Safari
 		Object.defineProperty(input, "value", {
-			get: function() { Console.log(this.originalValue);Console.log(ghost.value); return this.valueLow + "," + this.valueHigh; },
+			get: function() { return this.valueLow + "," + this.valueHigh; },
 			set: function(v) {
 				var values = v.split(",");
 				this.valueLow = values[0];
