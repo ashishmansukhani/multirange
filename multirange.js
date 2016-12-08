@@ -31,16 +31,29 @@ self.multirange = function(input) {
 
 	Object.defineProperties(input, {
 		valueLow: {
-			get: function() { return Math.min(this.originalValue, ghost.value); },
+			get: function() { Console.log(this.originalValue);Console.log(ghost.value);return Math.min(this.originalValue, ghost.value); },
 			set: function(v) { this.originalValue = v; },
 			enumerable: true
 		},
 		valueHigh: {
-			get: function() { return Math.max(this.originalValue, ghost.value); },
+			get: function() { Console.log(this.originalValue);Console.log(ghost.value);return Math.max(this.originalValue, ghost.value); },
 			set: function(v) { ghost.value = v; },
 			enumerable: true
 		}
 	});
+	
+	if (descriptor.get) {
+		// Again, fuck you Safari
+		Object.defineProperty(input, "value", {
+			get: function() { Console.log(this.originalValue);Console.log(ghost.value); return this.valueLow + "," + this.valueHigh; },
+			set: function(v) {
+				var values = v.split(",");
+				this.valueLow = values[0];
+				this.valueHigh = values[1];
+			},
+			enumerable: true
+		});
+	}
 
 	function update() {
 		ghost.style.setProperty("--low", 100 * ((input.valueLow - min) / (max - min)) + 1 + "%");
